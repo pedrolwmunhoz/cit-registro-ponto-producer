@@ -23,7 +23,8 @@ public class RegistroPontoController {
     private RegistroPontoProducerService produtorService;
 
     @GetMapping("/registrar-entrada/")
-    public CompletableFuture<String> registrarEntrada(@RequestBody BancoHorasEntity bancoHoras) {
+    public CompletableFuture<String> registrarEntrada() {
+        BancoHorasEntity bancoHoras = new BancoHorasEntity();
         // Criar e popular um objeto SaldoHorasEntity
         SaldoHorasEntity saldoHoras = new SaldoHorasEntity();
         saldoHoras.setIdSaldoHoras(1); // Exemplo de ID

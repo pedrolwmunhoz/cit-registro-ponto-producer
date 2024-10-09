@@ -1,65 +1,65 @@
-version: '3'
+# version: '3'
 
-services:
-  zookeeper:
-    image: wurstmeister/zookeeper:3.4.6
-    restart: always
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+# services:
+#   zookeeper:
+#     image: wurstmeister/zookeeper:3.4.6
+#     restart: always
+#     ports:
+#       - "2181:2181"
+#     environment:
+#       ZOOKEEPER_CLIENT_PORT: 2181
+#       ZOOKEEPER_TICK_TIME: 2000
 
-  kafka:
-    image: wurstmeister/kafka:latest
-    restart: always
-    ports:
-      - "9092:9092"
-      - "9093:9093"
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9093
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9093
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_HEAP_OPTS: "-Xmx256M -Xms256M"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-      - zookeeper
+#   kafka:
+#     image: wurstmeister/kafka:latest
+#     restart: always
+#     ports:
+#       - "9092:9092"
+#       - "9093:9093"
+#     environment:
+#       KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092,OUTSIDE://localhost:9093
+#       KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9093
+#       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+#       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+#       KAFKA_HEAP_OPTS: "-Xmx256M -Xms256M"
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     depends_on:
+#       - zookeeper
 
-  registro-ponto-funcionario:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://imtech-desenv.cjysw2kaegdm.us-east-1.rds.amazonaws.com:5432/impontodb
-      SPRING_DATASOURCE_USERNAME: munhoz
-      SPRING_DATASOURCE_PASSWORD: Cobol4ever.
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: true
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
-      JASYPT_ENCRYPTOR_PASSWORD: 5cb8007cebf4491abc136966e9a098649038ae28337b6f649d447f959f1be6c2
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      - kafka
-      - postgres
+#   registro-ponto-funcionario:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     restart: always
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://imtech-desenv.cjysw2kaegdm.us-east-1.rds.amazonaws.com:5432/impontodb
+#       SPRING_DATASOURCE_USERNAME: munhoz
+#       SPRING_DATASOURCE_PASSWORD: Cobol4ever.
+#       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+#       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#       SPRING_JPA_SHOW_SQL: true
+#       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+#       JASYPT_ENCRYPTOR_PASSWORD: 5cb8007cebf4491abc136966e9a098649038ae28337b6f649d447f959f1be6c2
+#       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#     depends_on:
+#       - kafka
+#       - postgres
 
-  postgres:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: impontodb
-      POSTGRES_USER: munhoz
-      POSTGRES_PASSWORD: Cobol4ever.
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+#   postgres:
+#     image: postgres:latest
+#     restart: always
+#     ports:
+#       - "5432:5432"
+#     environment:
+#       POSTGRES_DB: impontodb
+#       POSTGRES_USER: munhoz
+#       POSTGRES_PASSWORD: Cobol4ever.
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:
