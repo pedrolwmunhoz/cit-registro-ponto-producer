@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class RegistroPontoProducerService {
 
-    private static final String TOPIC = "banco-horas-topic"; // Nome do seu tópico Kafka
+    private static final String TOPIC = "registro-ponto-topic"; // Nome do seu tópico Kafka
 
     @Autowired
     private KafkaTemplate<String, RegistroPontoMessage> kafkaTemplate;
