@@ -18,7 +18,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia o JAR gerado da etapa anterior
-COPY --from=builder /app/target/registro-ponto-funcionario-1.1.1-SNAPSHOT.jar app.jar
+COPY --from=builder /app/target/registro-ponto-funcionario-producer-1.1.1-SNAPSHOT.jar app.jar
 
 # Expondo a porta que a aplicação irá usar
 EXPOSE 8080
