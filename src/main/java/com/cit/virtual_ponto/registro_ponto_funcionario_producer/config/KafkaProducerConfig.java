@@ -22,7 +22,7 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, RegistroPontoMessage> producerFactory() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092"); // Endereço do seu broker Kafka
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // Endereço do seu broker Kafka
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class); // Usando JsonSerializer do Spring Kafka
 
