@@ -2,6 +2,7 @@ package com.cit.virtual_ponto.registro_ponto_funcionario_producer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class RegistroPontoController {
     private RegistroPontoProducerService produtorService;
 
     @GetMapping("/registrar-entrada/")
-    public CompletableFuture<String> registrarEntrada() {
+    public CompletableFuture<String> registrarEntrada(@RequestBody BancoHorasEntity bancoHoras) {
         // Criar e popular um objeto SaldoHorasEntity
         SaldoHorasEntity saldoHoras = new SaldoHorasEntity();
         saldoHoras.setIdSaldoHoras(1); // Exemplo de ID
@@ -39,7 +40,7 @@ public class RegistroPontoController {
         jornadaTrabalho.setIntervaloDescanso(LocalTime.of(1, 0)); // Exemplo de intervalo de 1 hora
 
         // Criar e popular o objeto BancoHorasEntity
-        BancoHorasEntity bancoHoras = new BancoHorasEntity();
+        bancoHoras = new BancoHorasEntity();
         bancoHoras.setIdBancoHoras(1); // Defina um ID (geralmente gerado automaticamente)
         bancoHoras.setSaldoHoras(saldoHoras); // Associar o objeto SaldoHorasEntity
         bancoHoras.setJornadaTrabalho(jornadaTrabalho); // Associar o objeto JornadaTrabalhoEntity
@@ -49,7 +50,7 @@ public class RegistroPontoController {
         RegistroPontoMessage registroPontoMessage = new RegistroPontoMessage();
         registroPontoMessage.setBancoHoras(bancoHoras);
         registroPontoMessage.setHoraRegistro(LocalTime.now()); // Define a hora atual como hora de registro
-        registroPontoMessage.setIdFuncionario(1); // Exemplo de ID do funcionário
+        registroPontoMessage.setIdFuncionario(bancoHoras.getIdBancoHoras()); // Exemplo de ID do funcionário
 
         return produtorService.enviarRegistroPonto(registroPontoMessage);
     }
