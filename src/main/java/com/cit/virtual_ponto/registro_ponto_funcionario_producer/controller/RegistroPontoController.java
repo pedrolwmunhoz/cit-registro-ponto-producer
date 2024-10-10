@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cit.virtual_ponto.registro_ponto_funcionario_producer.models.RegistroPontoMessage;
 import com.cit.virtual_ponto.registro_ponto_funcionario_producer.services.producer.RegistroPontoProducerService;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -24,9 +26,16 @@ public class RegistroPontoController {
 
         // Criar e popular o objeto RegistroPontoMessage
         RegistroPontoMessage registroPontoMessage = new RegistroPontoMessage();
-        registroPontoMessage.setHoraRegistro(LocalTime.now().toString()); // Define a hora atual como hora de registro
-        registroPontoMessage.setIdFuncionario(idFuncionario); // Exemplo de ID do funcionário
+        
+        // Definindo o formato desejado para data/hora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        // Obtendo a data e hora atual em São Paulo
+        ZonedDateTime horaAtual = ZonedDateTime.now(java.time.ZoneId.of("America/Sao_Paulo"));
+        String horaRegistroFormatada = horaAtual.format(formatter); // Formata a data e hora
+        registroPontoMessage.setHoraRegistro(horaRegistroFormatada); // Define a hora de registro formatada
 
+
+        registroPontoMessage.setIdFuncionario(idFuncionario);
         return produtorService.enviarRegistroPonto(registroPontoMessage);
     }
 }
